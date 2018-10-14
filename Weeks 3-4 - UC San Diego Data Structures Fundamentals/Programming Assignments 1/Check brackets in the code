@@ -1,0 +1,25 @@
+#! python3
+# IsBalanced.py
+
+openings = '([{<'
+closings = ')]}>'
+pairs = tuple(opening + closing for opening, closing in zip(openings, closings))
+
+def arematching(left, right):
+    return True if left + right in pairs else False
+
+def find_mismatch(string):
+    brackets_stack = []
+    for i, char in enumerate(string):
+        if char in openings:
+            brackets_stack.append(char)
+        elif char in closings:
+            if brackets_stack:
+                if arematching(brackets_stack.pop(), char):
+                    continue
+            return 'The first mismatch at index %d.' % (i)
+    return 'Success.'
+
+if __name__ == '__main__':
+    print(find_mismatch('][]'))
+    print(find_mismatch('[(<>{()})]<<>>'))
